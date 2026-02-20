@@ -58,7 +58,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+from fastapi import HTTPException
 
+@app.delete("/api/items/{item_id}")
+def delete_item(item_id: int):
+    global items  # o items_db, según el nombre que uses
+    for i, item in enumerate(items):
+        if item.get("id") == item_id:
+            del items[i]
+            return {"message": "Item deleted successfully"}
+    raise HTTPException(status_code=404, detail="Item not found")
 # Database Dependency
 def get_db():
     db = SessionLocal()
