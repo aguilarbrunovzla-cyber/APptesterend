@@ -126,3 +126,10 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "ok", "message": "Marketplace API is running"}
+@app.delete("/api/items/{item_id}")
+def delete_item(item_id: int):
+    for i, item in enumerate(items):
+        if item.get("id") == item_id:
+            del items[i]
+            return {"message": "Item deleted"}
+    raise HTTPException(status_code=404, detail="Item not found")
