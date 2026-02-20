@@ -23,7 +23,7 @@ function App() {
             if (filters.min_price) params.append('min_price', filters.min_price);
             if (filters.max_price) params.append('max_price', filters.max_price);
 
-            const res = await fetch(`http://localhost:8000/api/items?${params.toString()}`);
+const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items?` + params.toString());
             if (res.ok) {
                 const data = await res.json();
                 setItems(data);
