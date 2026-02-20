@@ -135,10 +135,13 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "ok", "message": "Marketplace API is running"}
-@app.delete("/api/items/{item_id}")
-def delete_item(item_id: int):
-    for i, item in enumerate(items):
-        if item.get("id") == item_id:
-            del items[i]
-            return {"message": "Item deleted"}
-    raise HTTPException(status_code=404, detail="Item not found")
+# Endpoint para ELIMINAR un ítem por ID (usando SQLAlchemy)
+@app.delete("/api/items/{item_id}", response_model=dict)
+def delete_item(item_id: int, db: Session = Depends(get_db)):
+    item = db.query(Item).filter(Item.id == item_id).first()
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+    db.delete(item)
+    db.commit()
+    return {"message": "Item deleted successfully"}
