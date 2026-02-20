@@ -53,7 +53,25 @@ const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items?` + params.to
         setView('buy');
         fetchItems();
     };
+const handleDelete = async (id) => {
+  if (!window.confirm("¿Seguro que quieres eliminar este ítem?")) return;
 
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
+      method: 'DELETE',
+    });
+  
+    if (res.ok) {
+      // Actualiza la lista local (quita el ítem)
+      setItems(items.filter(item => item.id !== id));
+      alert("Ítem eliminado");
+    } else {
+      alert("Error al eliminar");
+    }
+  } catch (err) {
+    alert("Error de red: " + err.message);
+  }
+};
     return (
         <div className="app-container">
             <header>
