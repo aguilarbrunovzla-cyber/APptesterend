@@ -29,7 +29,7 @@ function CreateItem({ onSuccess }) {
                 price: parseFloat(formData.price) || 0
             };
 
-            const res = await fetch('http://localhost:8000/api/items', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
