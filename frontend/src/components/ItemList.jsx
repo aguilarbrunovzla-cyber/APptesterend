@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function ItemList({ items, loading }) {
+function ItemList({ items, loading, onDelete }) {
     if (loading) {
         return <div className="loading">Cargando artículos...</div>;
     }
@@ -27,6 +27,12 @@ function ItemList({ items, loading }) {
                         </div>
                         <p style={{ marginTop: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                             {item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}
+                            <button
+  onClick={() => onDelete(item.id)}
+  style={{ backgroundColor: 'red', color: 'white', marginTop: '10px', padding: '8px 12px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+>
+  Eliminar
+</button>
                         </p>
                     </div>
                 </div>
